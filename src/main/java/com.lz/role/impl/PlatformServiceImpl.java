@@ -53,7 +53,9 @@ public class PlatformServiceImpl implements PlatformService {
     private boolean prefer=true;
     //是否比较时间窗口的影响
     private boolean timewindow=false;
+    //评价数据缓存（同代下防止数据被连续计算）
     private ConcurrentHashMap<String,ConcurrentHashMap<Integer,Double>> cache=new ConcurrentHashMap<>();
+    //初始化缓存
     {
         for(int i=1;i<61;i++){
             for(int j=96;j<146;j++){
@@ -65,7 +67,7 @@ public class PlatformServiceImpl implements PlatformService {
 
 
 
-
+    //获取可信服务列表
     @Override
     public List<Ser> getTrustedService(int ranLow, int ranHigh, User user, int choice,int gen) {
 
@@ -102,7 +104,7 @@ public class PlatformServiceImpl implements PlatformService {
     }
 
 
-
+    //按照时间衰减因子和滑动窗口计算直接信任
     private double getAverageByTimeAndWindow(int gen,String user,String ser){
         Double trust,s=cache.get(user+"re"+ser).get(gen);
 //        String s=(String) stringRedisTemplate.opsForHash().get(user+"re"+ser,gen+"");
@@ -154,7 +156,15 @@ public class PlatformServiceImpl implements PlatformService {
         return result;
     }
 
-    private double getAverageByTime(List<Record> records,int gen){
+    //按照时间衰减因子计算直接信任
+    private double getAverageByTime(int gen,String user,String ser){
+        Double trust,s=cache.get(user+"re"+ser).get(gen);
+        if(s!=null){
+            return s;
+        }
+        Type type=new TypeToken<ArrayList<Record>>() {}.getType();
+        String a=stringRedisTemplate.opsForValue().get(user+"&"+ser);
+        ArrayList<Record> records=gson.fromJson("["+a+"]",type);
         Integer reLen = records.size();
         double avg = 0;
         double timeWeightAll = 0;
@@ -168,8 +178,9 @@ public class PlatformServiceImpl implements PlatformService {
             avg+=records.get(y).getTrust()*timeWeight;
         }
 
-
-        return avg/timeWeightAll;
+        double result=avg/timeWeightAll;
+        storeMeasureResult(result,gen,user,ser);
+        return result;
     }
 
 //    private double getAverage(List<Record> records){
@@ -186,6 +197,7 @@ public class PlatformServiceImpl implements PlatformService {
 //        return avg/reLen;
 //    }
 
+    //获取服务信任值
     double measureServiceTrust(Ser ser, int choice,User user,int gen){
         //获取
         Set<String> users=stringRedisTemplate.opsForSet().members(ser.getId()+"");
@@ -197,7 +209,7 @@ public class PlatformServiceImpl implements PlatformService {
         double weightAll=0;
         String a=userRole(user.getId()),b;
         for(String use:users){
-            double diff=0.0125;
+            double diff=0.125;
             trust=measureServiceTrustWithUser(use,ser.getId()+"",choice,gen);
             int id=Integer.parseInt(use);
             //当自己有记录是分开来算自己的
@@ -207,6 +219,7 @@ public class PlatformServiceImpl implements PlatformService {
             }
             else {
                 if(gen>14&&choice==1) {
+
                     diff += measureUserFeedbackTrust(user.getId()+"", use, choice, gen);
                 }
 
@@ -245,6 +258,7 @@ public class PlatformServiceImpl implements PlatformService {
 
     }
 
+    //获取用户评价相似度
     double measureUserFeedbackTrust(String user,String base,int choice,int gen){
         Set<String> a=stringRedisTemplate.opsForSet().intersect(user+"u",base+"u");
         double sum=0;
@@ -260,6 +274,7 @@ public class PlatformServiceImpl implements PlatformService {
         return sqrt(sum);
     }
 
+    //获取某个用户对目标服务的信任值
     double measureServiceTrustWithUser(String user, String ser, int choice,int gen){
         double trust;
         if(timewindow){
@@ -278,10 +293,13 @@ public class PlatformServiceImpl implements PlatformService {
 
     }
 
+    //更新信任值缓存
     void storeMeasureResult(Double trust,int gen,String user,String ser){
         cache.get(user+"re"+ser).put(gen,trust);
 //        stringRedisTemplate.opsForHash().put(user+"re"+ser,gen+"",trust.toString());
     }
+
+    //获取对同一个服务两个用户间的反馈区别
     double getFeedbackDiff(String user,String base,String ser,int choice,int gen){
         if(timewindow){
             if(choice==0){
@@ -305,10 +323,11 @@ public class PlatformServiceImpl implements PlatformService {
     @Override
     public double verify(int se,int gen){
         List<Record> records=recordMapper.selectByService(se);
-        double trust=getAverageByTime(records,gen);
+        double trust=0;
         return trust;
     }
 
+    //判断用户的类别
     private String userRole(int id){
         return id<=30?"res":"thr";
     }
