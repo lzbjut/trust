@@ -11,6 +11,6 @@ import java.util.concurrent.BrokenBarrierException;
 public interface TestService {
     void Clear();
     List<Result> GetResult(int countCase);
-    void Run(int gen,int laps,int countCase) throws BrokenBarrierException, InterruptedException;
+    void Run(int gen,int laps,int choice) throws BrokenBarrierException, InterruptedException;
 
 }

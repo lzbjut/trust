@@ -53,6 +53,7 @@ public class PlatformServiceImpl implements PlatformService {
     private int signal=14;
     //自信因子
     private float selfTrust=0.6F;
+
     //是否使用时间窗口
     private boolean timewindow=true;
     //间接信任是否含有用户偏好相似度
@@ -75,7 +76,7 @@ public class PlatformServiceImpl implements PlatformService {
 
     //获取可信服务列表
     @Override
-    public List<Ser> getTrustedService(int ranLow, int ranHigh, User user, int choice,int gen) {
+    public List<Ser> getTrustedService(int ranLow, int ranHigh, User user,int gen) {
 
         //根据qos需求初步筛选服务
         List<Ser> services = serviceMapper.selectByQuality(ranLow, ranHigh);
@@ -95,7 +96,7 @@ public class PlatformServiceImpl implements PlatformService {
 ///            serviceMapper.countA(services.get(i).getId());
 
             //获取所有使用过该服务的历史评估信息
-            double avg=measureServiceTrust(services.get(i),choice,user,gen);
+            double avg=measureServiceTrust(services.get(i),user,gen);
 
             //根据平均值选择是否不考虑该服务
             if (avg < limit && services.get(i).getCount() > 4) {
@@ -209,12 +210,13 @@ public class PlatformServiceImpl implements PlatformService {
 //    }
 
     //获取服务信任值
-    double measureServiceTrust(Ser ser, int choice,User user,int gen){
+    double measureServiceTrust(Ser ser,User user,int gen){
         //获取曾经使用过该服务的用户
         Set<String> users=stringRedisTemplate.opsForSet().members(ser.getId()+"");
         //是否有记录
         boolean hasRecord=false;
         //初始化直接信任
+        double self=0;
         double trust=0;
         double sum=0;
         double weightAll=0;
@@ -222,26 +224,27 @@ public class PlatformServiceImpl implements PlatformService {
         for(String use:users){
             double diff=0.125;
             //获取某个用户对目标服务的信任值
-            trust=measureServiceTrustWithUser(use,ser.getId()+"",choice,gen);
+            trust=measureServiceTrustWithUser(use,ser.getId()+"",gen);
             int id=Integer.parseInt(use);
             //当自己有记录是分开来算自己的
             if(id==user.getId()){
                 hasRecord=true;
+                self=trust;
                 continue;
             }
             else {
                 //若间接接信任要考虑评价相似度
                 if(gen>=signal&&feedbackDiff==true) {
 
-                    diff += measureUserFeedbackTrust(user.getId()+"", use, choice, gen);
+                    diff += measureUserFeedbackTrust(user.getId()+"", use, gen);
                 }
 
             }
-            b=userMapper.userRole(id);
+            b=userRole(id);
             int weight;
             if(prefer){
                 //偏好相似度
-                if(!a.equals(b)||choice==1){
+                if(isDifferent(a,b)){
                     weight=2;
                 }
                 else{
@@ -249,12 +252,7 @@ public class PlatformServiceImpl implements PlatformService {
                 }
             }
             else{
-                if(!a.equals(b)){
-                    weight=2;
-                }
-                else{
-                    weight=3;
-                }
+                weight=2;
             }
             sum=sum+(trust*(weight/diff));
             weightAll=weightAll+(weight/diff);
@@ -262,7 +260,7 @@ public class PlatformServiceImpl implements PlatformService {
 
         //有记录则要按比例，没有就按间接
         if(hasRecord){
-            sum= (sum/weightAll)*(1-selfTrust)+trust*selfTrust;
+            sum= (sum/weightAll)*(1-selfTrust)+self*selfTrust;
         }
         else{
             sum= sum/weightAll;
@@ -272,7 +270,7 @@ public class PlatformServiceImpl implements PlatformService {
     }
 
     //获取用户评价相似度
-    double measureUserFeedbackTrust(String user,String base,int choice,int gen){
+    double measureUserFeedbackTrust(String user,String base,int gen){
         Set<String> a=stringRedisTemplate.opsForSet().intersect(user+"u",base+"u");
         double sum=0;
         if(a.size()!=0){
@@ -280,7 +278,7 @@ public class PlatformServiceImpl implements PlatformService {
 
 //            sum=a.stream().mapToDouble((String s)->Math.pow(getFeedbackDiff(user,base,s,choice,gen),2)).sum();
             for(String s:a){
-                sum+=Math.pow(getFeedbackDiff(user,base,s,choice,gen),2);
+                sum+=Math.pow(getFeedbackDiff(user,base,s,gen),2);
             }
         }
 
@@ -288,7 +286,7 @@ public class PlatformServiceImpl implements PlatformService {
     }
 
     //获取某个用户对目标服务的信任值
-    double measureServiceTrustWithUser(String user, String ser, int choice,int gen){
+    double measureServiceTrustWithUser(String user, String ser,int gen){
         double trust;
         if(timewindow){
                 trust=getAverageByTimeAndWindow(gen,user,ser);
@@ -309,22 +307,16 @@ public class PlatformServiceImpl implements PlatformService {
     }
 
     //获取对同一个服务两个用户间的反馈区别
-    double getFeedbackDiff(String user,String base,String ser,int choice,int gen){
+    double getFeedbackDiff(String user,String base,String ser,int gen){
         if(timewindow){
-            if(choice==0){
-                double tmcA=getAverageByTimeAndWindow(gen,user,ser);
-                double tmcB=getAverageByTimeAndWindow(gen,base,ser);
-                return (tmcA-tmcB);
-            }
-            else{
-                double tmcA=getAverageByTimeAndWindow(gen,user,ser);
-                double tmcB=getAverageByTimeAndWindow(gen,base,ser);
-                return (tmcA-tmcB);
-            }
-        }
-        else{
             double tmcA=getAverageByTimeAndWindow(gen,user,ser);
             double tmcB=getAverageByTimeAndWindow(gen,base,ser);
+            return (tmcA-tmcB);
+
+        }
+        else{
+            double tmcA=getAverageByTime(gen,user,ser);
+            double tmcB=getAverageByTime(gen,base,ser);
             return (tmcA-tmcB);
         }
     }
@@ -336,11 +328,21 @@ public class PlatformServiceImpl implements PlatformService {
         return trust;
     }
 
+    @Override
+    public void init(boolean timewindow, boolean prefer, boolean feedbackDiff) {
+        this.timewindow=timewindow;
+        this.prefer=prefer;
+        this.feedbackDiff=feedbackDiff;
+    }
+
     //判断用户的类别
     private String userRole(int id){
         return id<=30?"res":"thr";
     }
 
+    private boolean isDifferent(String a,String b){
+        return (a=="res"&&b=="thr")||(a=="thr"&&b=="res");
+    }
 
 
 }

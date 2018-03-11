@@ -54,9 +54,6 @@ public class ConsumerServiceImpl implements ConsumerService {
         if(len>0){
             int ran =SelectService(services);
             Record r = new Record();
-            if(gen>=22&&services.get(ran).getRole()=="bad"){
-                int i=1;
-            }
             //调用服务器service模拟服务提供过程获取实际qos值
             Ser actual=providerService.ProduceServiceActualQuality(services.get(ran),gen);
             //恶意用户反馈相反的值，诋毁对手

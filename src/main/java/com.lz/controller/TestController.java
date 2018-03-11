@@ -30,9 +30,9 @@ public class TestController {
 
 	//开始进行模拟
 	@RequestMapping(value="/test",method= RequestMethod.POST)
-	public void Test(int gen,int laps,int countCase) throws BrokenBarrierException, InterruptedException {
+	public void Test(int gen,int laps,int choice) throws BrokenBarrierException, InterruptedException {
 
-		testService.Run(gen,laps,countCase);
+		testService.Run(gen,laps,choice);
 
 	}
 

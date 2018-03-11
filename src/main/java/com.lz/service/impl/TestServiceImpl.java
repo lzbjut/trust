@@ -66,7 +66,7 @@ public class TestServiceImpl implements TestService {
         final CountDownLatch countDownLatch=new CountDownLatch(users.size());
         //创建客户端，开始调用服务并模拟平台自动评估服务可信值，模拟用户在可选列表的服务列表中随机选择服务，服务提供商模拟提供特定范围内的服务质量，根据对比值自动产生反馈值并录入数据库中，将上面步骤中加入的栅栏加入到每个客户端中协助控制
         for(User user:users){
-            Serve s=new Serve(user,platformService,consumerService,providerService,countDownLatch,test,beforeBarrier,afterBarrier,choice,gen,laps);
+            Serve s=new Serve(user,platformService,consumerService,providerService,countDownLatch,test,beforeBarrier,afterBarrier,gen,laps);
             s.start();
         }
         //对应多个代用来在最终统计图中显示出平台在渐渐加强服务评估的精度，每次使用第一个栅栏等待所有的用户调用完当前迭代的量，第二个栅栏卡住用户等自己统计完插入进数据库再放行
@@ -212,31 +212,63 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public void Run(int gen,int laps,int countCase) throws BrokenBarrierException, InterruptedException {
-        switch (countCase){
-            //对比服务成功率
+    public void Run(int gen,int laps,int choice) throws BrokenBarrierException, InterruptedException {
+        switch (choice){
+            //比较时间窗口
             case 0:
-                Test(gen,0,laps,countCase);
+                platformService.init(false,false,false);
+                Test(gen,0,laps,0);
                 ClearPart();
-                Test(gen,1,laps,countCase);
+                platformService.init(true,false,false);
+                Test(gen,0,laps,0);
                 ClearPart();
                 break;
-            //对比好坏服务商的选中次数
+            //比较用户偏向
             case 1:
+                platformService.init(true,false,false);
+                Test(gen,0,laps,2);
                 ClearPart();
-                Test(gen,0,laps,countCase);
+                platformService.init(true,true,false);
+                Test(gen,0,laps,2);
+                ClearPart();
                 break;
-            //对比对比带不带偏向下偏向服务的调用次数
+            //比较用户评价相似度
             case 2:
-                Clear();
-                Test(gen,0,laps,countCase);
+                platformService.init(true,true,false);
+                Test(gen,0,laps,0);
                 ClearPart();
-                Test(gen,1,laps,countCase);
+                platformService.init(true,true,true);
+                Test(gen,0,laps,0);
                 ClearPart();
                 break;
             default:
                 break;
         }
+
+//        switch (countCase){
+//            //对比服务成功率
+//            case 0:
+//                Test(gen,0,laps,countCase);
+//                ClearPart();
+//                Test(gen,1,laps,countCase);
+//                ClearPart();
+//                break;
+//            //对比好坏服务商的选中次数
+//            case 1:
+//                ClearPart();
+//                Test(gen,0,laps,countCase);
+//                break;
+//            //对比对比带不带偏向下偏向服务的调用次数
+//            case 2:
+//                Clear();
+//                Test(gen,0,laps,countCase);
+//                ClearPart();
+//                Test(gen,1,laps,countCase);
+//                ClearPart();
+//                break;
+//            default:
+//                break;
+//        }
 
     }
 

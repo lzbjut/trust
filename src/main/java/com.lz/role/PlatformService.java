@@ -9,6 +9,7 @@ import java.util.List;
  * Created by inst1 on 2017/10/31.
  */
 public interface PlatformService {
-    List<Ser> getTrustedService(int ranLow, int ranHigh, User user, int choice,int gen);
+    List<Ser> getTrustedService(int ranLow, int ranHigh, User user,int gen);
     double verify(int se,int gen);
+    void init(boolean timewindow,boolean prefer,boolean feedbackDiff);
 }

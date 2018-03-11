@@ -25,10 +25,9 @@ public class Serve extends Thread {
     CountDownLatch countDownLatch;
     CyclicBarrier beforeBarrier;
     CyclicBarrier afterBarrier;
-    int choice;
 
     //初始化多线程，将需要用到的mapper和service加入到类中
-    public Serve(User user, PlatformService platformService, ConsumerService consumerService, ProviderService providerService, CountDownLatch countDownLatch, AtomicInteger count, CyclicBarrier beforeBarrier, CyclicBarrier afterBarrie, int choice, int gen,int laps){
+    public Serve(User user, PlatformService platformService, ConsumerService consumerService, ProviderService providerService, CountDownLatch countDownLatch, AtomicInteger count, CyclicBarrier beforeBarrier, CyclicBarrier afterBarrie, int gen,int laps){
         //将客户端需要的东西注入到线程中，由于mapper等需要连接的东西是通过threadlocal存储的所以不存在线程安全问题
         this.user=user;
         this.platformService=platformService;
@@ -38,7 +37,6 @@ public class Serve extends Thread {
         this.count=count;
         this.beforeBarrier=beforeBarrier;
         this.afterBarrier=afterBarrie;
-        this.choice=choice;
         this.gen=gen;
         this.laps=laps;
     }
@@ -64,7 +62,7 @@ public class Serve extends Thread {
                 //随机需求，（待定：根据不同种类用户产生不同质量需求）
                 int ranLow = 1;
                 int ranHigh =10;
-                List<Ser> services=platformService.getTrustedService(ranLow,ranHigh,user,choice,i);
+                List<Ser> services=platformService.getTrustedService(ranLow,ranHigh,user,i);
                 consumerService.UseService(services,user,i);
 
 
