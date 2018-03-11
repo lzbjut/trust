@@ -54,24 +54,28 @@ public class ConsumerServiceImpl implements ConsumerService {
         if(len>0){
             int ran =SelectService(services);
             Record r = new Record();
+            if(services.get(ran).getRole()=="bad"){
+                int i=1;
+            }
             //调用服务器service模拟服务提供过程获取实际qos值
             Ser actual=providerService.ProduceServiceActualQuality(services.get(ran),gen);
-            if(user.getRole()=="bad"){
-                if(services.get(ran).getRole()=="bad"){
-                    trust=0.95F;
-                }
-                else{
-                    trust=0.65F;
-                }
-            }
-            else{
+            //恶意用户反馈相反的值，诋毁对手
+//            if(user.getRole()=="bad"){
+//                if(services.get(ran).getRole()=="bad"){
+//                    trust=0.95F;
+//                }
+//                else{
+//                    trust=actual.getReliability()*user.getReliability()+actual.getThroughPut()*user.getThroughPut()+actual.getResponseTime()*user.getResponseTime()+actual.getUsability()*user.getUsability();
+//                }
+//            }
+//            else{
                 //计算可信值
                 trust=actual.getReliability()*user.getReliability()+actual.getThroughPut()*user.getThroughPut()+actual.getResponseTime()*user.getResponseTime()+actual.getUsability()*user.getUsability();
-            }
+//            }
 
             //录入反馈记录
             r.setTime(gen);
-            r.setTrust(trust );
+            r.setTrust(trust);
             stringRedisTemplate.opsForValue().append(user.getId()+"&"+services.get(ran).getId(),","+gson.toJson(r));
             //如果服务最终评估为实际可信，则证明推荐和评估过程成功了。
             if(trust>=0.8){
