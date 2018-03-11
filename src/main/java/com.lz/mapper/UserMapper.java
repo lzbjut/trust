@@ -11,4 +11,5 @@ public interface UserMapper {
         List<User> selectAll();
         int count(Integer id);
         int countSuccess();
+        User selectByPrimaryKey(int id);
 }

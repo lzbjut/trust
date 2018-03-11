@@ -54,7 +54,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         if(len>0){
             int ran =SelectService(services);
             Record r = new Record();
-            if(services.get(ran).getRole()=="bad"){
+            if(gen>=22&&services.get(ran).getRole()=="bad"){
                 int i=1;
             }
             //调用服务器service模拟服务提供过程获取实际qos值

@@ -1,10 +1,15 @@
 package com.lz.entity;
 
+import java.io.Serializable;
+
 /**
- * Created by inst1 on 2017/6/21.
+ *
+ * @author inst1
+ * @date 2017/6/21
  * 用户
  */
-public class User {
+public class User implements Serializable{
+    private static final long serialVersionUID = 1L;
     private int id;
     private String name;
     private int count;

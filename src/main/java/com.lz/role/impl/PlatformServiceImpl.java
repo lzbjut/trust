@@ -7,6 +7,7 @@ import com.lz.entity.Ser;
 import com.lz.entity.User;
 import com.lz.mapper.RecordMapper;
 import com.lz.mapper.ServiceMapper;
+import com.lz.mapper.UserMapper;
 import com.lz.role.PlatformService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -34,6 +35,9 @@ public class PlatformServiceImpl implements PlatformService {
     private RecordMapper recordMapper;
 
     @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
     StringRedisTemplate stringRedisTemplate;
 
     @Autowired
@@ -49,10 +53,12 @@ public class PlatformServiceImpl implements PlatformService {
     private int signal=14;
     //自信因子
     private float selfTrust=0.6F;
-    //是否比较用户偏好的影响
+    //是否使用时间窗口
+    private boolean timewindow=true;
+    //间接信任是否含有用户偏好相似度
     private boolean prefer=true;
-    //是否比较时间窗口的影响
-    private boolean timewindow=false;
+    //间接信任是否含有评价相似度
+    private boolean feedbackDiff=true;
     //评价数据缓存（同代下防止数据被连续计算）
     private ConcurrentHashMap<String,ConcurrentHashMap<Integer,Double>> cache=new ConcurrentHashMap<>();
     //初始化缓存
@@ -106,11 +112,12 @@ public class PlatformServiceImpl implements PlatformService {
 
     //按照时间衰减因子和滑动窗口计算直接信任
     private double getAverageByTimeAndWindow(int gen,String user,String ser){
+        //查询缓存，命中则直接返回
         Double trust,s=cache.get(user+"re"+ser).get(gen);
-//        String s=(String) stringRedisTemplate.opsForHash().get(user+"re"+ser,gen+"");
         if(s!=null){
             return s;
         }
+        //未命中去redis查询历史纪录进行计算
         Type type=new TypeToken<ArrayList<Record>>() {}.getType();
         String a=stringRedisTemplate.opsForValue().get(user+"&"+ser);
         ArrayList<Record> records=gson.fromJson("["+a+"]",type);
@@ -152,16 +159,19 @@ public class PlatformServiceImpl implements PlatformService {
             avg+=limit*remain;
         }
         double result=avg/timeWeightAll;
+        //更新缓存
         storeMeasureResult(result,gen,user,ser);
         return result;
     }
 
     //按照时间衰减因子计算直接信任
     private double getAverageByTime(int gen,String user,String ser){
+        //查询缓存是否命中，命中则直接返回结果
         Double trust,s=cache.get(user+"re"+ser).get(gen);
         if(s!=null){
             return s;
         }
+        //缓存不命中，从redis中查询数据
         Type type=new TypeToken<ArrayList<Record>>() {}.getType();
         String a=stringRedisTemplate.opsForValue().get(user+"&"+ser);
         ArrayList<Record> records=gson.fromJson("["+a+"]",type);
@@ -179,6 +189,7 @@ public class PlatformServiceImpl implements PlatformService {
         }
 
         double result=avg/timeWeightAll;
+        //更新缓存
         storeMeasureResult(result,gen,user,ser);
         return result;
     }
@@ -199,7 +210,7 @@ public class PlatformServiceImpl implements PlatformService {
 
     //获取服务信任值
     double measureServiceTrust(Ser ser, int choice,User user,int gen){
-        //获取
+        //获取曾经使用过该服务的用户
         Set<String> users=stringRedisTemplate.opsForSet().members(ser.getId()+"");
         //是否有记录
         boolean hasRecord=false;
@@ -207,9 +218,10 @@ public class PlatformServiceImpl implements PlatformService {
         double trust=0;
         double sum=0;
         double weightAll=0;
-        String a=userRole(user.getId()),b;
+        String a=user.getRole(),b;
         for(String use:users){
             double diff=0.125;
+            //获取某个用户对目标服务的信任值
             trust=measureServiceTrustWithUser(use,ser.getId()+"",choice,gen);
             int id=Integer.parseInt(use);
             //当自己有记录是分开来算自己的
@@ -218,13 +230,14 @@ public class PlatformServiceImpl implements PlatformService {
                 continue;
             }
             else {
-                if(gen>14&&choice==1) {
+                //若间接接信任要考虑评价相似度
+                if(gen>=signal&&feedbackDiff==true) {
 
                     diff += measureUserFeedbackTrust(user.getId()+"", use, choice, gen);
                 }
 
             }
-            b=userRole(id);
+            b=userMapper.userRole(id);
             int weight;
             if(prefer){
                 //偏好相似度
@@ -278,15 +291,11 @@ public class PlatformServiceImpl implements PlatformService {
     double measureServiceTrustWithUser(String user, String ser, int choice,int gen){
         double trust;
         if(timewindow){
-            if(choice==0){
                 trust=getAverageByTimeAndWindow(gen,user,ser);
-            }
-            else{
-                trust=getAverageByTimeAndWindow(gen,user,ser);
-            }
+
         }
         else{
-            trust=getAverageByTimeAndWindow(gen,user,ser);
+            trust=getAverageByTime(gen,user,ser);
         }
 
         return trust;
