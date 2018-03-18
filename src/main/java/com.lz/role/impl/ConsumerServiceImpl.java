@@ -56,18 +56,21 @@ public class ConsumerServiceImpl implements ConsumerService {
             Record r = new Record();
             //调用服务器service模拟服务提供过程获取实际qos值
             Ser actual=providerService.ProduceServiceActualQuality(services.get(ran),gen);
-            //恶意用户反馈相反的值，诋毁对手
-//            if(user.getRole()=="bad"){
-//                if(services.get(ran).getRole()=="bad"){
-//                    trust=0.95F;
-//                }
-//                else{
-//                    trust=actual.getReliability()*user.getReliability()+actual.getThroughPut()*user.getThroughPut()+actual.getResponseTime()*user.getResponseTime()+actual.getUsability()*user.getUsability();
-//                }
-//            }
-//            else{
-                //计算可信值
+            //恶意用户反馈相反的值
+            if(user.getRole().equals("bad")){
+                if(services.get(ran).getRole().equals("bad")){
+                    trust=0.95F;
+                }
+                else{
+                    trust=actual.getReliability()*user.getReliability()+actual.getThroughPut()*user.getThroughPut()+actual.getResponseTime()*user.getResponseTime()+actual.getUsability()*user.getUsability();
+                }
+            }
+            else{
                 trust=actual.getReliability()*user.getReliability()+actual.getThroughPut()*user.getThroughPut()+actual.getResponseTime()*user.getResponseTime()+actual.getUsability()*user.getUsability();
+            }
+
+                //计算可信值
+
 //            }
 
             //录入反馈记录

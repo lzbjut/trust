@@ -13,4 +13,5 @@ public interface TestService {
     List<Result> GetResult(int countCase);
     void Run(int gen,int laps,int choice) throws BrokenBarrierException, InterruptedException;
 
+
 }

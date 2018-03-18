@@ -51,6 +51,7 @@ public class TestServiceImpl implements TestService {
 
     private List<CountHelper> countHelpers=new ArrayList<>();
     private  void Test(int gen,int choice,int laps,int countCase) throws BrokenBarrierException, InterruptedException {
+
         //初始化case2中的偏向服务对比试验统计用数据
         int sum=0;
         //从数据库中取出用户
@@ -101,7 +102,7 @@ public class TestServiceImpl implements TestService {
                     break;
                 //统计带偏向相似度和不带偏向相似度的时候偏向服务器被调用次数
                 case 2:
-                    if(choice==0){
+
                         CountHelper countHelper1=new CountHelper();
                         countHelper1.setGen(i+1);
                         //储存总共的偏向服务调用总数
@@ -109,14 +110,13 @@ public class TestServiceImpl implements TestService {
                         countHelper1.setTotalCount(totalRes-sum);
                         countHelpers.add(countHelper1);
                         sum=totalRes;
-                    }
-                    else{
-                        CountHelper countHelper1=countHelpers.get(i);
+
+                         countHelper1=countHelpers.get(i);
                         //储存总共的偏向服务调用总数
-                        int totalRes=serviceMapper.selectTotalRes();
+                         totalRes=serviceMapper.selectTotalRes();
                         countHelper1.setSuccessCount(totalRes-sum);
                         sum=totalRes;
-                    }
+
                     //当两遍都进行完了以后将统计数据录入数据库
                     if(i==gen-1&&choice==1){
                         countHelperMapper.insertCountHelpers(countHelpers);

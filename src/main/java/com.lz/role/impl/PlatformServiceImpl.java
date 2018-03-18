@@ -62,15 +62,8 @@ public class PlatformServiceImpl implements PlatformService {
     private boolean feedbackDiff=true;
     //评价数据缓存（同代下防止数据被连续计算）
     private ConcurrentHashMap<String,ConcurrentHashMap<Integer,Double>> cache=new ConcurrentHashMap<>();
-    //初始化缓存
-    {
-        for(int i=1;i<61;i++){
-            for(int j=96;j<146;j++){
-                ConcurrentHashMap<Integer,Double> map=new ConcurrentHashMap<>();
-                cache.put(i+"re"+j,map);
-            }
-        }
-    }
+
+
 
 
 
@@ -97,7 +90,9 @@ public class PlatformServiceImpl implements PlatformService {
 
             //获取所有使用过该服务的历史评估信息
             double avg=measureServiceTrust(services.get(i),user,gen);
-
+            if(avg>=0.8&&gen>22){
+                int s=1;
+            }
             //根据平均值选择是否不考虑该服务
             if (avg < limit && services.get(i).getCount() > 4) {
                 //不选择则去除该服务，方便最后用户随机抽取可信服务
@@ -115,7 +110,11 @@ public class PlatformServiceImpl implements PlatformService {
     private double getAverageByTimeAndWindow(int gen,String user,String ser){
         //查询缓存，命中则直接返回
         Double trust,s=cache.get(user+"re"+ser).get(gen);
+
         if(s!=null){
+            if(Integer.parseInt(ser)>=121&&gen>22&&s>=0.8){
+                int sss=1;
+            }
             return s;
         }
         //未命中去redis查询历史纪录进行计算
@@ -162,6 +161,9 @@ public class PlatformServiceImpl implements PlatformService {
         double result=avg/timeWeightAll;
         //更新缓存
         storeMeasureResult(result,gen,user,ser);
+        if(Integer.parseInt(ser)>=121&&gen>22&&result>=0.8){
+            int sss=1;
+        }
         return result;
     }
 
@@ -222,7 +224,7 @@ public class PlatformServiceImpl implements PlatformService {
         double weightAll=0;
         String a=user.getRole(),b;
         for(String use:users){
-            double diff=0.125;
+            double diff=0;
             //获取某个用户对目标服务的信任值
             trust=measureServiceTrustWithUser(use,ser.getId()+"",gen);
             int id=Integer.parseInt(use);
@@ -237,6 +239,9 @@ public class PlatformServiceImpl implements PlatformService {
                 if(gen>=signal&&feedbackDiff==true) {
 
                     diff += measureUserFeedbackTrust(user.getId()+"", use, gen);
+
+
+
                 }
 
             }
@@ -254,13 +259,25 @@ public class PlatformServiceImpl implements PlatformService {
             else{
                 weight=2;
             }
-            sum=sum+(trust*(weight/diff));
-            weightAll=weightAll+(weight/diff);
+            if(gen>=signal&&feedbackDiff==true) {
+                sum=sum+(trust*(weight/diff));
+                weightAll=weightAll+(weight/diff);
+            }
+            else{
+                sum=sum+(trust*weight);
+                weightAll=weightAll+weight;
+            }
+
+
         }
 
         //有记录则要按比例，没有就按间接
         if(hasRecord){
-            sum= (sum/weightAll)*(1-selfTrust)+self*selfTrust;
+            double other=sum/weightAll;
+            sum= (other)*(1-selfTrust)+self*selfTrust;
+            if(sum>=0.8&&ser.getRole().equals("bad")&&gen>=22&&timewindow==true){
+                int i=1;
+            }
         }
         else{
             sum= sum/weightAll;
@@ -333,12 +350,22 @@ public class PlatformServiceImpl implements PlatformService {
         this.timewindow=timewindow;
         this.prefer=prefer;
         this.feedbackDiff=feedbackDiff;
+        //初始化缓存
+        {
+            for(int i=1;i<61;i++){
+                for(int j=96;j<146;j++){
+                    ConcurrentHashMap<Integer,Double> map=new ConcurrentHashMap<>();
+                    cache.put(i+"re"+j,map);
+                }
+            }
+        }
     }
 
     //判断用户的类别
     private String userRole(int id){
-        return id<=30?"res":"thr";
+        return "thr";
     }
+
 
     private boolean isDifferent(String a,String b){
         return (a=="res"&&b=="thr")||(a=="thr"&&b=="res");
