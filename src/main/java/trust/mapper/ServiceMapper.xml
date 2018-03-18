@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="trust.mapper.ServiceMapper">
+    <resultMap id="BaseResultMap" type="trust.entity.Ser">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="quality" jdbcType="INTEGER" property="quality" />
+        <result column="count" jdbcType="INTEGER" property="count" />
+        <result column="role" jdbcType="VARCHAR" property="role" />
+        <result column="usability" jdbcType="FLOAT" property="usability" />
+        <result column="reliability" jdbcType="FLOAT" property="reliability" />
+        <result column="response_time" jdbcType="FLOAT" property="responseTime" />
+        <result column="through_put" jdbcType="FLOAT" property="throughPut" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, name, quality,count,role,usability,reliability,response_time,through_put
+    </sql>
+    <select id="selectByQuality"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from service
+        where quality &gt;= #{0} and quality &lt;= #{1}
+    </select>
+
+    <update id="count" parameterType="java.lang.Integer">
+        update service set count=count+1 where id=#{id}
+    </update>
+
+    <update id="countA" parameterType="java.lang.Integer">
+        update service set counta=counta+1 where id=#{id}
+    </update>
+
+
+
+</mapper>

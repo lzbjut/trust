@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+            http://www.springframework.org/schema/context 
+            http://www.springframework.org/schema/context/spring-context-4.0.xsd
+            http://www.springframework.org/schema/aop 
+            http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+            http://www.springframework.org/schema/tx 
+            http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+            http://www.springframework.org/schema/mvc 
+            http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+            http://www.springframework.org/schema/context 
+            http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<!--  因为事物，扫描Controller, 不再扫描Service -->
+	<context:component-scan base-package="trust">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>   
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>   
+	</context:component-scan>
+
+    <mvc:resources mapping="/static/**" location="/WEB-INF/static/" />
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter" /> <!--先进行string转换-->
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <!-- 处理responseBody 里面日期类型 -->
+                        <property name="dateFormat">
+                            <bean class="java.text.SimpleDateFormat">
+                                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />
+                            </bean>
+                        </property>
+                        <!-- 时区指定 -->
+                        <property name="timeZone" value="GMT+8" />
+                    </bean>
+                </property>
+                   </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+
+        <!-- 静态资源处理， css， js， imgs -->
+
+
+
+    <mvc:resources mapping="/static/**" location="/static/"/>
+<!--<mvc:resources location="/" mapping="/**/*.jpg"/>
+    <mvc:resources location="/" mapping="/**/*.jpeg"/>
+	<mvc:resources location="/" mapping="/**/*.bmp"/>   
+	<mvc:resources location="/" mapping="/**/*.gif"/> -->
+	 
+<!-- 	 <mvc:annotation-driven>  
+    	<mvc:message-converters>  
+        	<bean class="org.springframework.http.converter.json.GsonHttpMessageConverter"/>  
+   	 	</mvc:message-converters>  
+	</mvc:annotation-driven>    -->
+	
+	
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<!-- 设置最大上传文件大小   10M=10*1024*1024(B)=10485760 bytes resolveLazily属性启用是为了推迟文件解析，以便捕获文件大小异常 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10485760" />
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="resolveLazily" value="true" />
+	</bean>
+	
+	
+   <!--<mvc:interceptors>  -->
+       <!--<mvc:interceptor>  -->
+       <!---->
+           <!--<mvc:mapping path="/api/*/*" />  -->
+           <!--<mvc:exclude-mapping path="/api/customer/register"/>-->
+           <!--<mvc:exclude-mapping path="/api/customer/vCodeBan"/>-->
+           <!--<mvc:exclude-mapping path="/api/customer/retriveSms"/>-->
+           <!--<mvc:exclude-mapping path="/api/customer/valiSms"/>-->
+           <!--<mvc:exclude-mapping path="/api/customer/retrivePassword"/>-->
+           <!--<mvc:exclude-mapping path="/api/customer/listGood"/>-->
+           <!--<mvc:exclude-mapping path="/api/customer/wxRecharge"/>-->
+           <!--<mvc:exclude-mapping path="/api/order/wxPay"/>-->
+           <!--<mvc:exclude-mapping path="/api/order/listSPhone"/>-->
+           <!--<mvc:exclude-mapping path="/api/customer/searchGood"/> -->
+           <!--<mvc:exclude-mapping path="/api/options/*"/>-->
+           <!--<mvc:exclude-mapping path="/api/customer/login"/> -->
+           <!--<mvc:exclude-mapping path="/api/util/*"/>-->
+           <!--<mvc:exclude-mapping path="/api/order/alipay"/>-->
+           <!--<mvc:exclude-mapping path="/api/customer/alipay"/>-->
+           <!--<mvc:exclude-mapping path="/api/customer/registerSms"/>-->
+           <!--<bean class="cn.edu.bjut.common.interceptor.AuthorizationInterceptor" >-->
+            <!---->
+          <!--</bean>-->
+           <!---->
+       <!--</mvc:interceptor>  -->
+   <!--</mvc:interceptors>-->
+	
+	
+</beans>
