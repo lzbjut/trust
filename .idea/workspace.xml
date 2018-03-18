@@ -6,36 +6,10 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0a77752e-a69c-4c03-ac06-1018e38b95b5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lz/controller/TestController.class" afterPath="$PROJECT_DIR$/target/classes/com/lz/controller/TestController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lz/entity/User.class" afterPath="$PROJECT_DIR$/target/classes/com/lz/entity/User.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lz/mapper/UserMapper.class" afterPath="$PROJECT_DIR$/target/classes/com/lz/mapper/UserMapper.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lz/role/PlatformService.class" afterPath="$PROJECT_DIR$/target/classes/com/lz/role/PlatformService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lz/role/Serve.class" afterPath="$PROJECT_DIR$/target/classes/com/lz/role/Serve.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lz/role/impl/ConsumerServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/lz/role/impl/ConsumerServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lz/role/impl/PlatformServiceImpl$1.class" afterPath="$PROJECT_DIR$/target/classes/com/lz/role/impl/PlatformServiceImpl$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lz/role/impl/PlatformServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/lz/role/impl/PlatformServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lz/service/impl/TestServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/lz/service/impl/TestServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/trust.war" afterPath="$PROJECT_DIR$/target/trust.war" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/trust/WEB-INF/classes/com/lz/controller/TestController.class" afterPath="$PROJECT_DIR$/target/trust/WEB-INF/classes/com/lz/controller/TestController.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/trust/WEB-INF/classes/com/lz/entity/User.class" afterPath="$PROJECT_DIR$/target/trust/WEB-INF/classes/com/lz/entity/User.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/trust/WEB-INF/classes/com/lz/mapper/UserMapper.class" afterPath="$PROJECT_DIR$/target/trust/WEB-INF/classes/com/lz/mapper/UserMapper.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/trust/WEB-INF/classes/com/lz/role/PlatformService.class" afterPath="$PROJECT_DIR$/target/trust/WEB-INF/classes/com/lz/role/PlatformService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/trust/WEB-INF/classes/com/lz/role/Serve.class" afterPath="$PROJECT_DIR$/target/trust/WEB-INF/classes/com/lz/role/Serve.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/trust/WEB-INF/classes/com/lz/role/impl/ConsumerServiceImpl.class" afterPath="$PROJECT_DIR$/target/trust/WEB-INF/classes/com/lz/role/impl/ConsumerServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/trust/WEB-INF/classes/com/lz/role/impl/PlatformServiceImpl$1.class" afterPath="$PROJECT_DIR$/target/trust/WEB-INF/classes/com/lz/role/impl/PlatformServiceImpl$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/trust/WEB-INF/classes/com/lz/role/impl/PlatformServiceImpl.class" afterPath="$PROJECT_DIR$/target/trust/WEB-INF/classes/com/lz/role/impl/PlatformServiceImpl.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/trust/WEB-INF/classes/com/lz/service/impl/TestServiceImpl.class" afterPath="$PROJECT_DIR$/target/trust/WEB-INF/classes/com/lz/service/impl/TestServiceImpl.class" />
+    <list default="true" id="0a77752e-a69c-4c03-ac06-1018e38b95b5" name="Default" comment="Rejected commit: Default">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/deployment.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/webServers.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com.lz/role/impl/ConsumerServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com.lz/role/impl/ConsumerServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com.lz/role/impl/PlatformServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com.lz/role/impl/PlatformServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com.lz/service/TestService.java" afterPath="$PROJECT_DIR$/src/main/java/com.lz/service/TestService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com.lz/service/impl/TestServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com.lz/service/impl/TestServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/application.properties" afterPath="$PROJECT_DIR$/target/classes/application.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/mapper/UserMapper.xml" afterPath="$PROJECT_DIR$/target/classes/mapper/UserMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/trust/WEB-INF/classes/application.properties" afterPath="$PROJECT_DIR$/target/trust/WEB-INF/classes/application.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/trust/WEB-INF/classes/mapper/UserMapper.xml" afterPath="$PROJECT_DIR$/target/trust/WEB-INF/classes/mapper/UserMapper.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -68,8 +42,8 @@
       <file leaf-file-name="PlatformServiceImpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com.lz/role/impl/PlatformServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="358" column="6" lean-forward="false" selection-start-line="358" selection-start-column="6" selection-end-line="358" selection-end-column="6" />
+            <state relative-caret-position="792">
+              <caret line="65" column="0" lean-forward="true" selection-start-line="49" selection-start-column="13" selection-end-line="65" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -154,8 +128,8 @@
       <file leaf-file-name="ConsumerServiceImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com.lz/role/impl/ConsumerServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1224">
-              <caret line="47" column="13" lean-forward="true" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
+            <state relative-caret-position="396">
+              <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -308,10 +282,10 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-2892" />
-    <option name="y" value="-185" />
-    <option name="width" value="2544" />
-    <option name="height" value="1599" />
+    <option name="x" value="-2736" />
+    <option name="y" value="-82" />
+    <option name="width" value="2520" />
+    <option name="height" value="1370" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -778,7 +752,8 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.46571258" />
     <property name="last_opened_file_path" value="C:/develop/SjspWeb" />
-    <property name="settings.editor.selected.configurable" value="com.zeroturnaround.javarebel.idea.plugin.settings.JRebelSettingsComponent" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="SearchEverywhereHistoryKey" value="setti&#9;ACTION&#9;Database.Settings" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -1525,7 +1500,7 @@
       <workItem from="1520992988662" duration="234000" />
       <workItem from="1521020380058" duration="660000" />
       <workItem from="1521026677909" duration="30000" />
-      <workItem from="1521278046433" duration="14073000" />
+      <workItem from="1521278046433" duration="16359000" />
     </task>
     <task id="LOCAL-00001" summary="Rejected commit: Default">
       <created>1520757517982</created>
@@ -1562,7 +1537,14 @@
       <option name="project" value="LOCAL" />
       <updated>1521285116235</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Rejected commit: Default">
+      <created>1521369322991</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1521369322991</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1598,7 +1580,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="500825000" />
+    <option name="totallyTimeSpent" value="503111000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1610,14 +1592,14 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-2892" y="-185" width="2544" height="1599" extended-state="6" />
+    <frame x="-2736" y="-82" width="2520" height="1370" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32982457" sideWeight="0.5016529" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980132" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="JRebel Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23739956" sideWeight="0.4918167" order="14" side_tool="true" content_ui="tabs" />
+      <window_info id="JRebel Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23739956" sideWeight="0.4918167" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32855973" sideWeight="0.49607843" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="JRebel Executor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28049672" sideWeight="0.49856836" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1627,18 +1609,18 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27905074" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24959743" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23739956" sideWeight="0.5081833" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14385965" sideWeight="0.50785124" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298272" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3228634" sideWeight="0.49570507" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32907587" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32982457" sideWeight="0.4983471" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19681528" sideWeight="0.49105224" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32907587" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32907587" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27986908" sideWeight="0.85953486" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28264463" sideWeight="0.85953486" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32978722" sideWeight="0.49607843" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="JRebel" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3409512" sideWeight="0.14046511" order="4" side_tool="true" content_ui="tabs" />
@@ -2080,14 +2062,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com.lz/role/impl/ConsumerServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1224">
-          <caret line="47" column="13" lean-forward="true" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com.lz/role/PlatformService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
@@ -2104,10 +2078,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com.lz/role/impl/ConsumerServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="24" column="0" lean-forward="true" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com.lz/role/impl/PlatformServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="358" column="6" lean-forward="false" selection-start-line="358" selection-start-column="6" selection-end-line="358" selection-end-column="6" />
+        <state relative-caret-position="792">
+          <caret line="65" column="0" lean-forward="true" selection-start-line="49" selection-start-column="13" selection-end-line="65" selection-end-column="0" />
           <folding />
         </state>
       </provider>
