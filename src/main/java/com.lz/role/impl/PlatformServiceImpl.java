@@ -76,7 +76,7 @@ public class PlatformServiceImpl implements PlatformService {
         //如果用户是吞吐量偏好的，前期自动过滤响应时间型以积累数据
         if(user.getRole().equals("thr")) {
             for (int i = 0; i < services.size(); i++) {
-                if (services.get(i).getRole().equals("res")&&gen < signal) {
+                if (services.get(i).getRole().equals("bad")&&gen < signal) {
                     services.remove(i);
                     i--;
                 }
@@ -90,9 +90,6 @@ public class PlatformServiceImpl implements PlatformService {
 
             //获取所有使用过该服务的历史评估信息
             double avg=measureServiceTrust(services.get(i),user,gen);
-            if(avg>=0.8&&gen>22){
-                int s=1;
-            }
             //根据平均值选择是否不考虑该服务
             if (avg < limit && services.get(i).getCount() > 4) {
                 //不选择则去除该服务，方便最后用户随机抽取可信服务
@@ -112,9 +109,6 @@ public class PlatformServiceImpl implements PlatformService {
         Double trust,s=cache.get(user+"re"+ser).get(gen);
 
         if(s!=null){
-            if(Integer.parseInt(ser)>=121&&gen>22&&s>=0.8){
-                int sss=1;
-            }
             return s;
         }
         //未命中去redis查询历史纪录进行计算
@@ -161,9 +155,6 @@ public class PlatformServiceImpl implements PlatformService {
         double result=avg/timeWeightAll;
         //更新缓存
         storeMeasureResult(result,gen,user,ser);
-        if(Integer.parseInt(ser)>=121&&gen>22&&result>=0.8){
-            int sss=1;
-        }
         return result;
     }
 
@@ -224,7 +215,7 @@ public class PlatformServiceImpl implements PlatformService {
         double weightAll=0;
         String a=user.getRole(),b;
         for(String use:users){
-            double diff=0;
+            double diff=1;
             //获取某个用户对目标服务的信任值
             trust=measureServiceTrustWithUser(use,ser.getId()+"",gen);
             int id=Integer.parseInt(use);
@@ -238,7 +229,7 @@ public class PlatformServiceImpl implements PlatformService {
                 //若间接接信任要考虑评价相似度
                 if(gen>=signal&&feedbackDiff==true) {
 
-                    diff += measureUserFeedbackTrust(user.getId()+"", use, gen);
+                    diff += 1;
 
 
 
@@ -275,9 +266,7 @@ public class PlatformServiceImpl implements PlatformService {
         if(hasRecord){
             double other=sum/weightAll;
             sum= (other)*(1-selfTrust)+self*selfTrust;
-            if(sum>=0.8&&ser.getRole().equals("bad")&&gen>=22&&timewindow==true){
-                int i=1;
-            }
+
         }
         else{
             sum= sum/weightAll;
@@ -363,7 +352,7 @@ public class PlatformServiceImpl implements PlatformService {
 
     //判断用户的类别
     private String userRole(int id){
-        return "thr";
+        return id<=30?"bad":"thr";
     }
 
 

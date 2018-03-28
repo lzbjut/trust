@@ -1,68 +1,71 @@
 package util.test;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Scanner;
+
 /**
  * Created by inst1 on 2018/2/17.
  */
 public class Main {
+    static int count=0;
+    static boolean stop=false;
 
     public static void main(String[] args) {
-        int i=10;
-        Integer a=10;
-        System.out.println(a==i);
+        Scanner sc=new Scanner(System.in);
+        int n= sc.nextInt();
+        int m=sc.nextInt();
+        HashMap<Long,Long> pay=new HashMap<>();
+        long[] Pay=new long[n];
+        for(int i=0;i<n;i++){
+            long jobDiff=sc.nextLong();
+            long pzay=sc.nextLong();
+            pay.put(pzay,jobDiff);
+            Pay[i]=pzay;
+        }
+        Arrays.sort(Pay);
+        for(int j=0;j<m;j++){
+            long ar=sc.nextLong();
+            for(int z=n-1;z>=0;z--){
+                if(pay.get(Pay[z])<=ar){
+                    System.out.println(Pay[z]);
+                    break;
+                }
+            }
+        }
 
 
     }
 
-
-
-    static String add(String a,String b){
-        char[] listA=a.toCharArray(),listB=b.toCharArray();
-        int lenA=a.length(),lenB=b.length();
-        boolean left=false;
-        if(lenA>lenB){
-            left=true;
+    static void sort(long[] list,long[] listB,int left,int right){
+        if(left>=right){
+            return;
         }
-        int[] list=new int[Math.max(lenA,lenB)+1];
-        int temp=0,next=0,curr;
-        for(int i=list.length-1;i>=1;i--){
-            if(left){
-                if(lenB!=0){
-                    curr=listA[--lenA]+listB[--lenB]+next-96;next=0;
-                }
-                else{
-                    curr=list[--lenA]-48;
-                    curr+=next; next=0;
-                }
+        long temp=list[left],tempB=listB[left];
+        int start=left,end=right;
+        while(start<end){
+            while(end>start&&list[end]>=temp){
+                end--;
             }
-            else{
-                if(lenA!=0){
-                    curr=listA[--lenA]+listB[--lenB]+next-97;
-                    next=0;
-                }
-                else{
-                    curr=listB[--lenB]-48+next; next=0;
-                }
+            list[start]=list[end];
+            listB[start]=listB[end];
+            while(start<end&&list[start]<=temp){
+                start++;
             }
-            if(curr>=20||curr<0){
-                return "error";
-            }
-            if(curr>=10){
-                curr-=10;next=1;
-            }
-            else{
-                next=0;
-            }
-            list[i]=curr;
+            list[end]=list[start];
+            listB[end]=listB[start];
         }
-        list[0]=next;
-        StringBuilder sb=new StringBuilder();
-        for(int i:list){
-            if(i!=0){
-                sb.append(i);
-            }
-        }
-        return sb.toString();
+        list[start]=temp;
+        listB[start]=tempB;
+        sort(list,listB,left,start-1);
+        sort(list,listB,start+1,right);
     }
+
+
+
+
+
+
 
 
 
