@@ -76,7 +76,7 @@ public class PlatformServiceImpl implements PlatformService {
         //如果用户是吞吐量偏好的，前期自动过滤响应时间型以积累数据
         if(user.getRole().equals("thr")) {
             for (int i = 0; i < services.size(); i++) {
-                if (services.get(i).getRole().equals("bad")&&gen < signal) {
+                if (services.get(i).getRole().equals("res")&&gen < signal) {
                     services.remove(i);
                     i--;
                 }
@@ -229,7 +229,7 @@ public class PlatformServiceImpl implements PlatformService {
                 //若间接接信任要考虑评价相似度
                 if(gen>=signal&&feedbackDiff==true) {
 
-                    diff += 1;
+                    diff += 19;
 
 
 
@@ -250,7 +250,7 @@ public class PlatformServiceImpl implements PlatformService {
             else{
                 weight=2;
             }
-            if(gen>=signal&&feedbackDiff==true) {
+            if(gen>=signal&&feedbackDiff) {
                 sum=sum+(trust*(weight/diff));
                 weightAll=weightAll+(weight/diff);
             }
@@ -352,7 +352,7 @@ public class PlatformServiceImpl implements PlatformService {
 
     //判断用户的类别
     private String userRole(int id){
-        return id<=30?"bad":"thr";
+        return id<=30?"res":"thr";
     }
 
 
