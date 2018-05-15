@@ -42,6 +42,7 @@ public class PlatformServiceImpl implements PlatformService {
 
     @Autowired
     private Gson gson;
+    public volatile double min=1;
 
     //缓慢增长窗口大小
     private static int winMin=50;
@@ -57,7 +58,7 @@ public class PlatformServiceImpl implements PlatformService {
     //是否使用时间窗口
     private boolean timewindow=true;
     //间接信任是否含有用户偏好相似度
-    private boolean prefer=true;
+    public boolean prefer=true;
     //间接信任是否含有评价相似度
     private boolean feedbackDiff=true;
     //评价数据缓存（同代下防止数据被连续计算）
@@ -215,10 +216,12 @@ public class PlatformServiceImpl implements PlatformService {
         double weightAll=0;
         String a=user.getRole(),b;
         for(String use:users){
+
             double diff=1;
             //获取某个用户对目标服务的信任值
             trust=measureServiceTrustWithUser(use,ser.getId()+"",gen);
             int id=Integer.parseInt(use);
+            b=userRole(id);
             //当自己有记录是分开来算自己的
             if(id==user.getId()){
                 hasRecord=true;
@@ -226,17 +229,16 @@ public class PlatformServiceImpl implements PlatformService {
                 continue;
             }
             else {
-                //若间接接信任要考虑评价相似度
-                if(gen>=signal&&feedbackDiff==true) {
-
-                    diff += 19;
-
-
-
+                if(gen>=14&&feedbackDiff){
+                    if(!userRole(id).equals(user.getRole())){
+                        diff+=19;
+                    }
+                    //若间接接信任要考虑评价相似度
+//                    diff+=measureUserFeedbackTrust(use, String.valueOf(user.getId()),gen);
                 }
 
+
             }
-            b=userRole(id);
             int weight;
             if(prefer){
                 //偏好相似度
@@ -335,6 +337,11 @@ public class PlatformServiceImpl implements PlatformService {
     }
 
     @Override
+    public boolean getPrefer() {
+        return this.prefer;
+    }
+
+    @Override
     public void init(boolean timewindow, boolean prefer, boolean feedbackDiff) {
         this.timewindow=timewindow;
         this.prefer=prefer;
@@ -357,7 +364,7 @@ public class PlatformServiceImpl implements PlatformService {
 
 
     private boolean isDifferent(String a,String b){
-        return (a=="res"&&b=="thr")||(a=="thr"&&b=="res");
+        return (a.equals("res")&&b.equals("thr"))||(a.equals("thr")&&b.equals("res"));
     }
 
 

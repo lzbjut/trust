@@ -47,6 +47,13 @@
         update service set count=count+1 where id=#{id}
     </update>
 
+    <update id="prepareService" parameterType="java.lang.Integer">
+
+                update service set role='good' where id &lt; =120 and id &gt;=96;
+                update service set role='bad' where id &gt; 120;
+
+    </update>
+
     <update id="countA" parameterType="java.lang.Integer">
         update service set counta=counta+1 where id=#{id}
     </update>
