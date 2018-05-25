@@ -58,6 +58,6 @@ public class TestController {
 	public String Clear() {
 		testService.Clear();
 		System.out.print("asdassdasd");
-		return "aazasdasdjjfaasdasddfaaaasasdasd";
+		return "123";
 	}
 }
